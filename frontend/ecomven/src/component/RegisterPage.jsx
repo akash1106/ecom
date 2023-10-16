@@ -1,11 +1,26 @@
 import React , { useState }from "react";
+import {useGlobalContext} from "../context";
+import { useNavigate } from 'react-router-dom';
+import NavBar from './NavBar'
 
 
 function RegisterPage() {
+  const navigate = useNavigate();
+  const [uname,setUname]=useState("");
+  const [phno,setPhno]=useState(0);
+  const [street,setStreet]=useState("");
+  const [city,setCity]=useState("");
+  const [state,setState]=useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {registeUser}=useGlobalContext();
+  const handleSubmit=()=>{
+    registeUser(uname,phno,username,street,city,state,password);
+    navigate('/Land'); 
+  }
   return (
     <>
+    <NavBar/>
       <div
         className="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5"
         tabIndex="-1"
@@ -22,9 +37,74 @@ function RegisterPage() {
               <form className="">
                 <div className="form-floating mb-3">
                   <input
+                    type="text"
+                    className="form-control rounded-3"
+                    id="floatingName"
+                    placeholder="Name"
+                    onChange={(e) => {
+                      setUname(e.target.value);
+                      
+                    }}
+                  ></input>
+                  <label htmlFor="floatingInput">Name</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="number"
+                    className="form-control rounded-3"
+                    id="floatingPhno"
+                    placeholder="Phone number"
+                    onChange={(e) => {
+                      setPhno(e.target.value);
+                      
+                    }}
+                  ></input>
+                  <label htmlFor="floatingInput">Phone Number</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control rounded-3"
+                    id="floatingStreet"
+                    placeholder="Street"
+                    onChange={(e) => {
+                      setStreet(e.target.value);
+                      
+                    }}
+                  ></input>
+                  <label htmlFor="floatingInput">Street</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control rounded-3"
+                    id="floatingCity"
+                    placeholder="City"
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                      
+                    }}
+                  ></input>
+                  <label htmlFor="floatingInput">City</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control rounded-3"
+                    id="floatingState"
+                    placeholder="State"
+                    onChange={(e) => {
+                      setState(e.target.value);
+                      
+                    }}
+                  ></input>
+                  <label htmlFor="floatingInput">State</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
                     type="email"
                     className="form-control rounded-3"
-                    id="floatingInput"
+                    id="floatingUser"
                     placeholder="name@example.com"
                     onChange={(e) => {
                       setUsername(e.target.value);
@@ -48,7 +128,9 @@ function RegisterPage() {
                 <button
                   className="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
                   type="submit"
-                  
+                  onClick={() => {
+                    handleSubmit();
+                  }}
                 >
                   Sign up
                 </button>

@@ -7,9 +7,9 @@ function NavBar() {
     <nav className='navbar ' style={{
       borderBottom:"1px solid #fff"
     }}>
-        <Link to="">Home </Link>
-        <Link to="register">Register</Link>
-        <Link to="login">Login</Link>
+        <Link to="/">Home </Link>
+        <Link to="/register">Register</Link>
+        <Link to="/login">Login</Link>
     </nav>
   )
 }

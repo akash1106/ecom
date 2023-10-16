@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import './LoginPage.css'
+import {useGlobalContext} from "../context";
+import { useNavigate } from 'react-router-dom';
+import NavBar from './NavBar'
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {authUser}=useGlobalContext();
+  const handleSubmit=()=>{
+    authUser(username,password);
+    navigate('/Land'); 
+  }
   return (
     <>
+      <NavBar/>
       <div className="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabIndex="-1" role="dialog" id="modalSignin">
         <div className="modal-dialog" role="document">
           <div className="modal-content rounded-4 shadow">
@@ -28,7 +38,7 @@ function LoginPage() {
                   <input type="password" className="form-control rounded-3" id="floatingPassword" placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}}></input>
                   <label htmlFor="floatingPassword">Password</label>
                 </div>
-                <button className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
+                <button className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onClick={() => {handleSubmit();}}>Login</button>
                 <small className="text-body-secondary">By clicking Login, you agree to the terms of use.</small>
                 <hr className="my-4"></hr>
                 
