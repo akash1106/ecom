@@ -8,10 +8,30 @@ function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {authUser}=useGlobalContext();
-  const handleSubmit=()=>{
-    authUser(username,password);
-    navigate('/Land'); 
+  const {user,authUser}=useGlobalContext();
+  const valid=()=>{
+    let val=true;
+    let text="";
+    if(!(username.includes('@') && username.includes('.'))){
+      text="Enter valid mailid"
+      val=false
+    }else if(password.length<8){
+      text="Enter password atleast 8 character"
+      val=false
+    }
+    if (val==false){
+      alert(text)
+    }
+    return val
+  }
+  const handleSubmit=async()=>{
+    if (valid()){
+      await authUser(username,password);
+      console.log(user)
+      if (user.vid){
+        navigate('/Land'); 
+      }
+    } 
   }
   return (
     <>
@@ -38,7 +58,7 @@ function LoginPage() {
                   <input type="password" className="form-control rounded-3" id="floatingPassword" placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}}></input>
                   <label htmlFor="floatingPassword">Password</label>
                 </div>
-                <button className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onClick={() => {handleSubmit();}}>Login</button>
+                <button className="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button" onClick={() => {handleSubmit();}}>Login</button>
                 <small className="text-body-secondary">By clicking Login, you agree to the terms of use.</small>
                 <hr className="my-4"></hr>
                 

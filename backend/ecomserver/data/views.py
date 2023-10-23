@@ -16,13 +16,14 @@ def venauth(request):
         city=data['city']
         state=data['state']
         pas=data['password']
-        obj=vendor.objects.filter(mailid=mailid)
-        if obj:
-            return JsonResponse({"message":"User Already Exists"})
-        ob1=vendor.objects.create(vname=vname,phno=phno,mailid=mailid,street=street,city=city,state=state,pas=pas)
-        ob1.save()
-        obj_serializer = VendorSerializer(ob1)
-        return JsonResponse(obj_serializer.data,safe=False)
+        if (vname.isalpha() and len(str(phno))==10 and '@' in mailid and '.' in mailid and street.isalpha() and city.isalpha() and state.isalpha() and len(pas)>=8):
+            obj=vendor.objects.filter(mailid=mailid)
+            if obj:
+                return JsonResponse({"message":"User Already Exists"})
+            ob1=vendor.objects.create(vname=vname,phno=phno,mailid=mailid,street=street,city=city,state=state,pas=pas)
+            ob1.save()
+            obj_serializer = VendorSerializer(ob1)
+            return JsonResponse(obj_serializer.data,safe=False)
     
 @csrf_exempt
 def venauthget(request):
@@ -36,4 +37,29 @@ def venauthget(request):
             return JsonResponse(link_serializer.data,safe=False)
         else:
             return JsonResponse({"message":"No match"})
-        
+
+@csrf_exempt
+def addpro(request,vid=-1):
+    if request.method == 'POST':
+        data=JSONParser().parse(request)['body']
+        print(data)
+        vid=data['vid']
+        caid=int(data['caid'])
+        name=data['name']
+        price=int(data['price'])
+        qty=int(data['qty'])
+        spe=data['spec']
+        if vendor.objects.filter(vid=vid) and categories.objects.filter(caid=caid) and not (name=="") and qty>0:
+            obj=product.objects.create(vid=vendor.objects.filter(vid=vid)[0], caid=categories.objects.filter(caid=caid)[0],name=name,price=price,qty=qty)
+            obj.save()
+            for x in spe:
+                ob=spec.objects.create(pid=obj,key=x[0],value=x[1])
+                ob.save()
+            return JsonResponse({"message":"done"})
+        return JsonResponse({"message":"fail"})
+
+def getcat(request):
+    if request.method == "GET":
+        cat=categories.objects.all()
+        serializer=categoriesSerializer(cat,many=True)
+        return JsonResponse(serializer.data, safe=False)

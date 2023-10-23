@@ -39,7 +39,6 @@ class product(models.Model):
     caid=models.ForeignKey(categories,on_delete=models.CASCADE)
     name=models.CharField(max_length=100)
     price=models.IntegerField()
-    pic=models.ImageField(upload_to=upload_to, blank=True, null=True)  
     qty=models.IntegerField()
 
 class spec(models.Model):

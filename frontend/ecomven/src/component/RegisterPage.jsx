@@ -13,11 +13,44 @@ function RegisterPage() {
   const [state,setState]=useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {registeUser}=useGlobalContext();
-  const handleSubmit=()=>{
-    registeUser(uname,phno,username,street,city,state,password);
-    navigate('/Land'); 
+  const {user,registeUser}=useGlobalContext();
+  const valid=()=>{
+    let regex = /^[a-zA-Z]+$/;
+    let val=true;
+    let text="";
+    alert(!(phno.toString().length==10))
+    if (!(regex.test(uname))){
+      text="Enter valid Username!!!";
+      val=false
+    }else if(!(phno.toString().length==10)){
+      text="Enter valid phone number !!!"
+      val=false
+    }else if(!(username.includes('@') && username.includes('.'))){
+      text="Enter valid email"
+      val=false
+    }else if(!(regex.test(city))){
+      text="Enter valid city"
+      val=false
+    }else if(!(regex.test(state))){
+      text="Enter valid state"
+      val =false
+    }else if((password.length<8)){
+      text="Enter password atleast 8 character"
+      val=false
+    }
+    if(val==false){
+      alert(text)
+    }
+    return val;
   }
+  const handleSubmit=async()=>{
+    if (valid()){
+      await registeUser(uname,phno,username,street,city,state,password);
+      if (user.vid){
+        navigate('/Land');
+      }
+  }
+}
   return (
     <>
     <NavBar/>
@@ -127,7 +160,7 @@ function RegisterPage() {
                 </div>
                 <button
                   className="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
-                  type="submit"
+                  type="button"
                   onClick={() => {
                     handleSubmit();
                   }}

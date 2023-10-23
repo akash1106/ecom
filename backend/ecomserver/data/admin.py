@@ -15,7 +15,7 @@ class categoriesAdmin(admin.ModelAdmin):
     list_display=("caid","sub1","sub2")
 
 class productAdmin(admin.ModelAdmin):
-    list_display=("pid","vid","caid","name","price","pic","qty")
+    list_display=("pid","vid","caid","name","price","qty")
 
 class specAdmin(admin.ModelAdmin):
     list_display=("pid","key","value")

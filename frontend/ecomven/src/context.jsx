@@ -10,6 +10,7 @@ const AppProvider=({children})=>{
     const [user,setUser]=useState({});
     const [allProduct,setAllProduct]=useState([]);
     const [isLogedIn,setIsLogedIn]=useState(false);
+    const [cat,setCat]=useState([]);
 
     const registeUser=async(name,phno,mailid,street,city,state,password)=>{
         const res=await axios.post(baseURL+'venauth',{
@@ -29,11 +30,11 @@ const AppProvider=({children})=>{
         });
         if(res.data.message){
             alert(res.data.message);
+            setUser({});
         }else{
             setUser(res.data);
+            console.log(user)
             setIsLogedIn(true);
-            console.log(res.data)
-            alert("done");
         }
     }
 
@@ -50,14 +51,41 @@ const AppProvider=({children})=>{
         });
         if(res.data.message){
             alert(res.data.message);
+            setUser({});
         }else{
             setUser(res.data);
+            alert(user.vid)
             setIsLogedIn(true);
             alert("done");
         }
     }
     
-    return <AppContext.Provider value={{user,isLogedIn,registeUser,authUser
+    const getcat= async()=>{
+        const res=await axios.get(baseURL+'getcat');
+        setCat(res.data);
+    }
+
+    const addpro=async(name,caid,price,qty,spec)=>{
+        const res=await axios.post(baseURL+'addpro',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "vid":user.vid,
+                "caid":caid,
+                "name":name,
+                "price":price,
+                "qty":qty,
+                "spec":spec,
+            }
+        });
+        if(res.data.message=="fail"){
+            alert("Failed...")
+        }
+    }
+    
+    return <AppContext.Provider value={{user,isLogedIn,cat,registeUser,authUser,getcat,addpro
     }}>
         {children}
     </AppContext.Provider>
