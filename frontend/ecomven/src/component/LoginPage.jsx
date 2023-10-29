@@ -27,7 +27,6 @@ function LoginPage() {
   const handleSubmit=async()=>{
     if (valid()){
       await authUser(username,password);
-      console.log(user)
       if (user.vid){
         navigate('/Land'); 
       }

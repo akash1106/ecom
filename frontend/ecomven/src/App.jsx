@@ -5,6 +5,7 @@ import LoginPage from './component/LoginPage'
 import RegisterPage from './component/RegisterPage'
 import LandPage from './component/LandPage'
 import AddProduct from './component/Add_product'
+import Profile_page from './component/Profile_page'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<LoginPage/>}></Route>
         <Route path="/Land" element={<LandPage/>}></Route>
         <Route path="/addproduct" element={<AddProduct/>}></Route>
+        <Route path="/profile" element={<Profile_page/>}></Route>
       </Routes>
     </>
   )

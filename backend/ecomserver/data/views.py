@@ -58,8 +58,34 @@ def addpro(request,vid=-1):
             return JsonResponse({"message":"done"})
         return JsonResponse({"message":"fail"})
 
+@csrf_exempt
 def getcat(request):
     if request.method == "GET":
         cat=categories.objects.all()
         serializer=categoriesSerializer(cat,many=True)
         return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def get_pro(request,id=-1):
+    if request.method=="GET":
+        obj=product.objects.filter(vid=id)
+        serializer=productSerializer(obj,many=True)
+        return JsonResponse(serializer.data,safe=False)
+    
+@csrf_exempt
+def update_pro(request):
+    if request.method=="POST":
+        data = JSONParser().parse(request)['body']
+        pid = int(data['pid'])
+        qty=int(data['qty'])
+        product.objects.filter(pk=pid).update(qty=qty)
+        return JsonResponse({"message":"done"})  
+
+@csrf_exempt
+def changePass(request):
+    if request.method=='POST':
+        data=JSONParser().parse(request)['body']
+        vid=data['vid']
+        password=data['password']
+        vendor.objects.filter(pk=vid).update(pas=password)
+        return JsonResponse({"message":"done"})

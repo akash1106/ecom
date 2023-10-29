@@ -33,7 +33,6 @@ const AppProvider=({children})=>{
             setUser({});
         }else{
             setUser(res.data);
-            console.log(user)
             setIsLogedIn(true);
         }
     }
@@ -84,8 +83,47 @@ const AppProvider=({children})=>{
             alert("Failed...")
         }
     }
+
+    const getproid=async()=>{
+        const res=await axios.get(baseURL+'getpro/'+user.vid);
+        setAllProduct(res.data);
+    }
+
+    const updateproqty=async(pid,qty)=>{
+        const res=await axios.post(baseURL+'updatepro',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "pid":pid,
+                "qty":qty
+            }
+        })
+        if(res.data.message=="fail"){
+            alert("Failed...")
+        }
+    }
+
+    const changepass=async(pas)=>{
+        alert("in")
+        const res=await axios.post(baseURL+'changepass',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "vid":user.vid,
+                "password":pas
+            }
+        })
+        console.log(res)
+        if(res.data.message=="fail"){
+            alert("Failed...")
+        }
+    }
     
-    return <AppContext.Provider value={{user,isLogedIn,cat,registeUser,authUser,getcat,addpro
+    return <AppContext.Provider value={{user,isLogedIn,cat,allProduct,setAllProduct,registeUser,authUser,getcat,addpro,getproid,updateproqty,changepass
     }}>
         {children}
     </AppContext.Provider>

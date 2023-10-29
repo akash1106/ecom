@@ -5,18 +5,17 @@ import "./MenuBar.css"
 
 function MenuBar() {
   const {user}=useGlobalContext();
-  console.log(user)
   return (
     <>
     <nav className='navbar ' style={{
         borderBottom:"1px solid #fff"
       }}>
-          <Link to="">Welcome {user.vname} </Link>
+          <Link to="/Land">Welcome {user.vname} </Link>
           <Link to=""></Link>
           <Link to=""></Link>
           <Link to=""></Link>
           <Link to="">order</Link>
-          <Link to="">profile</Link>
+          <Link to="/profile">profile</Link>
       </nav>
     </>
   )
