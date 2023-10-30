@@ -34,7 +34,7 @@ function LandPage() {
               <a class="btn btn-primary" onClick={()=>{
                 let foo = prompt('Enter Quantity:');
                 let bar = confirm('Confirm or deny');
-                if(bar == true){
+                if(bar == true && foo>0){
                   updateproqty(pro.pid,foo)
                   getproid()
                 }

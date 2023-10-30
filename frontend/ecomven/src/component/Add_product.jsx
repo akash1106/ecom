@@ -89,7 +89,7 @@ function AddProduct() {
                                     </>
                                 )
                             })}
-                            <button class="btn btn-primary" type="submit" onClick={()=>{addpro(name,caid,price,qty,spec)}}>Sumbit</button>
+                            <button class="btn btn-primary" type="submit" onClick={()=>{addpro(name,caid,price,qty,spec);navigate('/Land');}}>Sumbit</button>
                             </form>
                         </div>
                     </div>

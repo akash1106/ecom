@@ -12,8 +12,8 @@ function Profile_page() {
     return (
         <div>
         <MenuBar/>
-        <div className="section-center">
-            <div class="card" style={{width:'30rem'}}>
+        <div className="section-center" >
+            <div class="card rounded-5" style={{width:'30rem'}}>
                 <div class="card-header">
                     <h2>profile</h2>
                 </div>

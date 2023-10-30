@@ -46,8 +46,11 @@ function RegisterPage() {
   const handleSubmit=async()=>{
     if (valid()){
       await registeUser(uname,phno,username,street,city,state,password);
+      alert(user.vid)
       if (user.vid){
         navigate('/Land');
+      }else{
+        navigate('/login')
       }
   }
 }
