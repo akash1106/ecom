@@ -89,3 +89,26 @@ def changePass(request):
         password=data['password']
         vendor.objects.filter(pk=vid).update(pas=password)
         return JsonResponse({"message":"done"})
+
+@csrf_exempt
+def addUser(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        name=data["name"]
+        phno=data["phno"]
+        mail=data["mail"]
+        password=data["password"]
+        doorno=data["doorno"]
+        street=data["street"]
+        city=data["city"]
+        state=data["state"]
+        if (name.isalpha() and len(str(phno))==10 and '@' in mail and '.' in mail and street.isalpha() and city.isalpha() and state.isalpha() and len(password)>=8):
+            obj=appuser.objects.filter(mailid=mailid)
+            if obj:
+                return JsonResponse({"message":"User Already Exists"})
+            obj1=appuser.objects.create(uname=name,phno=phno,mailid=mail,doorno=doorno,street=street,city=city,state=state,pas=password,coin=0)
+            ob1.save()
+            obj_serializer = AppUserSerializer(ob1)
+            return JsonResponse(obj_serializer.data,safe=False)
+        return JsonResponse({"message":"Error"})
+            

@@ -9,4 +9,5 @@ urlpatterns=[
     path("getpro/<int:id>",views.get_pro,name="getpro"),
     path("updatepro",views.update_pro,name="updatepro"),
     path("changepass",views.changePass,name="changepass"),
+    path("adduser",views.addUser,name="adduser"),
 ]
