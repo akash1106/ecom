@@ -103,12 +103,63 @@ def addUser(request):
         city=data["city"]
         state=data["state"]
         if (name.isalpha() and len(str(phno))==10 and '@' in mail and '.' in mail and street.isalpha() and city.isalpha() and state.isalpha() and len(password)>=8):
-            obj=appuser.objects.filter(mailid=mailid)
+            obj=appuser.objects.filter(mailid=mail)
             if obj:
                 return JsonResponse({"message":"User Already Exists"})
             obj1=appuser.objects.create(uname=name,phno=phno,mailid=mail,doorno=doorno,street=street,city=city,state=state,pas=password,coin=0)
-            ob1.save()
-            obj_serializer = AppUserSerializer(ob1)
+            obj1.save()
+            obj_serializer = AppUserSerializer(obj1)
             return JsonResponse(obj_serializer.data,safe=False)
         return JsonResponse({"message":"Error"})
-            
+    
+@csrf_exempt
+def get_user(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        mail=data["mail"]
+        password=data["password"]
+        obj=appuser.objects.filter(mailid=mail,pas=password)
+        if obj:
+            obj_serializer = AppUserSerializer(obj, many=True)
+            return JsonResponse(obj_serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"Error"})
+
+@csrf_exempt
+def getprocaid(request):
+    if request.method == 'POST':
+        data=JSONParser().parse(request)['body']
+        caid=data['caid']
+        ob=categories.objects.filter(caid=caid)
+        if ob:
+            obj=product.objects.filter(caid=ob[0])
+            obj_serializer=productSerializer(obj,many=True)
+            return JsonResponse(obj_serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"Error"})
+        
+@csrf_exempt
+def getproid(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        proid=data['proid']
+        ob=product.objects.filter(proid=proid)
+        if ob:
+            obj_serializer=productSerializer(ob,many=True)
+            return JsonResponse(obj_serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"Error"})
+        
+@csrf_exempt
+def getspecid(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        proid=data['proid']
+        ob=product.objects.filter(pid=proid)
+        if ob:
+            obj=spec.objects.filter(pid=ob[0])
+            obj_Serializer=specSerializer(obj,many=True)
+            return JsonResponse(obj_Serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"Error"})
+    

@@ -10,4 +10,6 @@ urlpatterns=[
     path("updatepro",views.update_pro,name="updatepro"),
     path("changepass",views.changePass,name="changepass"),
     path("adduser",views.addUser,name="adduser"),
+    path("authuser",views.get_user,name="authuser"),
+    path("getprocaid",views.getprocaid,name="getprocaid"),
 ]

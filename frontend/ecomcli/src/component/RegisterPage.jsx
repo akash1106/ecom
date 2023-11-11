@@ -15,7 +15,7 @@ function RegisterPage() {
     const [password, setPassword] = useState("");
     const {user,registeUser}=useGlobalContext();
     const valid=()=>{
-        let regex = /^[a-zA-Z]+$/;
+        let regex = /^[a-zA-Z/s]+$/;
         let val=true;
         let text="";
         alert(!(phno.toString().length==10))
@@ -122,7 +122,7 @@ function RegisterPage() {
               <small className="text-body-secondary">
                   By clicking Sign up, you agree to the terms of use.
                 </small>
-                <button class="btn btn-primary" type="button">submit</button>
+                <button class="btn btn-primary" type="button" onClick={()=>{handleSubmit()}}>submit</button>
 
             </form>
             </div>
