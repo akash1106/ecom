@@ -6,6 +6,8 @@ import LoginPage from './component/LoginPage'
 import Land from './component/Land'
 import Listpro from './component/Listpro'
 import ViewPro from './component/ViewPro'
+import Wishlist from './component/Wishlist'
+import Cart from './component/Cart'
 
 function App() {
 
@@ -17,6 +19,8 @@ function App() {
       <Route path="/login" element={<LoginPage/>}></Route>
       <Route path="/land" element={<Land/>}></Route>
       <Route path="/listpro" element={<Listpro/>}></Route>
+      <Route path="/wishlist" element={<Wishlist/>}></Route>
+      <Route path="/cart" element={<Cart/>}></Route>
       <Route path="/viewpro/:pid" element={<ViewPro/>}></Route>
     </Routes>
     </>

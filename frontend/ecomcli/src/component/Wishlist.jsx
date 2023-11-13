@@ -1,15 +1,23 @@
 import React,{useState} from 'react'
-import MenuBar from './MenuBar';
-import {useGlobalContext} from "../context";
 import { useNavigate } from 'react-router-dom';
+import {useGlobalContext} from "../context";
+import MenuBar from './MenuBar';
 
-function Listpro() {
-  const {user,caidpro}=useGlobalContext();
-  const navigate = useNavigate();
+function Wishlist() {
+    const {user,getwishlist,wishlist,removewish}=useGlobalContext();
+    const [temp,setTemp]=useState(0);
+    const navigate = useNavigate();
+
+    if(temp==0){
+      getwishlist()
+      setTemp(1)
+    }
+    
   return (
     <>
+    <MenuBar/>
     <div className="section-center">
-    {caidpro.map((ca,index)=>{
+    {wishlist.map((ca,index)=>{
       return (
           <>
           <div className="card" key={index} style={{width:'18rem'}}>
@@ -22,6 +30,9 @@ function Listpro() {
               <a class="btn btn-primary" onClick={()=>{
                 navigate(`/viewpro/${ca.pid}`)
               }}>View</a>
+              <a class="btn btn-primary" onClick={()=>{
+                removewish(ca.pid)
+              }}>Remove</a>
             </div>
           </div>  
           </>
@@ -32,4 +43,4 @@ function Listpro() {
   )
 }
 
-export default Listpro
+export default Wishlist

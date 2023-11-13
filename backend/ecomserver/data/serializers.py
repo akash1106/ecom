@@ -38,6 +38,7 @@ class notificationSerializer(serializers.ModelSerializer):
         fields=("nid","uid","vid","typ","text","state")
 
 class cartSerializer(serializers.ModelSerializer):
+    pid = serializers.PrimaryKeyRelatedField(queryset=product.objects.all())
     class Meta:
         model=cart
         fields=("cid","pid","uid","state","time")

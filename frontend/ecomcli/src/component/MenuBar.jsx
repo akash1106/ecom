@@ -5,7 +5,6 @@ import "./MenuBar.css"
 
 function MenuBar() {
   const {user}=useGlobalContext();
-  console.log(user)
   return (
     <>
     <nav className='navbar ' style={{
@@ -14,8 +13,8 @@ function MenuBar() {
           <Link to="/Land">Welcome {user[0].uname} </Link>
           <Link to=""></Link>
           <Link to=""></Link>
-          <Link to="">wishlist</Link>
-          <Link to="">cart</Link>
+          <Link to="/wishlist">wishlist</Link>
+          <Link to="/cart">cart</Link>
           <Link to="/profile">profile</Link>
       </nav>
     </>

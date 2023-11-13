@@ -12,6 +12,9 @@ const AppProvider=({children})=>{
     const [cat,setCat]=useState([])
     const [catid,setCatid]=useState(-1)
     const [caidpro,setcaidpro]=useState([])
+    const [viewlist,setViewList]=useState([])
+    const [wishlist,setWishList]=useState([])
+    const [cart,setCart]=useState([])
 
     const registeUser=async(name,phno,mail,password,doorno,street,city,state)=>{
         const res=await axios.post(baseURL+'adduser',{
@@ -88,8 +91,120 @@ const AppProvider=({children})=>{
             setcaidpro(res.data)
         }
     }
+
+    const getview=async(uid)=>{
+        const res=await axios.get(baseURL+`getviewlist/${uid}`);
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            console.log(res.data)
+            setViewList(res.data)
+        }
+    }
+
+    const addwish=async(pid)=>{
+        const res=await axios.post(baseURL+'addwish',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "pid":pid,
+                "uid":user[0].uid
+            }
+        });
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            alert("ADDED")
+        }
+    }
+
+    const addcart=async(pid)=>{
+        const res=await axios.post(baseURL+'addcart',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "pid":pid,
+                "uid":user[0].uid
+            }
+        });
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            alert("ADDED")
+        }
+    }
     
-    return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,setCatid,registeUser,authUser,getcat,getprocaid,
+    const getwishlist=async()=>{
+        const res=await axios.get(baseURL+`getwishlist/${user[0].uid}`);
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            setWishList(res.data)
+        }
+    }
+
+    const removewish=async(wid1)=>{
+        const res=await axios.post(baseURL+`removewish/${wid1}/${user[0].uid}`);
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            alert("REMOVED")
+        }
+    }
+
+    const getcart=async()=>{
+        const res=await axios.get(baseURL+`getcart/${user[0].uid}`);
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            setCart(res.data);
+        }
+    }
+
+    const removecart=async(pid)=>{
+        const res=await axios.post(baseURL+'removecart',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "pid":pid,
+                "uid":user[0].uid
+            }
+        });
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            alert("REMOVED")
+        }
+    }
+
+    const placeorder=async(list)=>{
+        const res=await axios.post(baseURL+'placeorder',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "list":list,
+                "uid":user[0].uid
+            }
+        });
+    }
+
+    return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,viewlist,wishlist,cart,
+        setCatid,registeUser,authUser,getcat,getprocaid,getview,addwish,addcart,getwishlist,removewish,getcart,removecart,placeorder,
     }}>
         {children}
     </AppContext.Provider>

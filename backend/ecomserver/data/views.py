@@ -3,6 +3,7 @@ from .models import *
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from .serializers import *
+from datetime import datetime
 
 
 @csrf_exempt
@@ -139,12 +140,20 @@ def getprocaid(request):
             return JsonResponse({"message":"Error"})
         
 @csrf_exempt
-def getproid(request):
+def getproid(request,uid=-1):
     if request.method=="POST":
         data=JSONParser().parse(request)['body']
-        proid=data['proid']
-        ob=product.objects.filter(proid=proid)
-        if ob:
+        print(data)
+        proid=data['pid']
+        ob=product.objects.filter(pid=proid)
+        obj1=appuser.objects.filter(uid=uid)
+        if ob and obj1:
+            obj2=viewlist.objects.filter(pid=ob[0],uid=obj1[0])
+            if obj2:
+                obj2[0].time=datetime.now()
+                obj2[0].save()
+            else:
+                viewlist.objects.create(pid=ob[0],uid=obj1[0],time=datetime.now()).save()
             obj_serializer=productSerializer(ob,many=True)
             return JsonResponse(obj_serializer.data,safe=False)
         else:
@@ -154,7 +163,7 @@ def getproid(request):
 def getspecid(request):
     if request.method=="POST":
         data=JSONParser().parse(request)['body']
-        proid=data['proid']
+        proid=data['pid']
         ob=product.objects.filter(pid=proid)
         if ob:
             obj=spec.objects.filter(pid=ob[0])
@@ -162,4 +171,104 @@ def getspecid(request):
             return JsonResponse(obj_Serializer.data,safe=False)
         else:
             return JsonResponse({"message":"Error"})
+               
+@csrf_exempt
+def getwishlist(request,uid=-1):
+    if request.method=="GET":
+        ob=appuser.objects.filter(uid=uid)
+        if ob:
+            obj=wishlist.objects.filter(uid=ob[0])
+            lis=[i['pid_id'] for i in obj.values()]
+            obj1=product.objects.filter(pk__in=lis)
+            obj_Serializer=productSerializer(obj1,many=True)
+            return JsonResponse(obj_Serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"error"})
+
+@csrf_exempt 
+def getcart(request,uid=-1):
+    if request.method=="GET":
+        ob=appuser.objects.filter(uid=uid)
+        if ob:
+            obj=cart.objects.filter(uid=ob[0])
+            lis=[i['pid_id'] for i in obj.values()]
+            obj1=product.objects.filter(pk__in=lis)
+            obj_Serializer=productSerializer(obj1,many=True)
+            return JsonResponse(obj_Serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"error"})
+            
+def getviewlist(request,uid=-1):
+    if request.method=="GET":
+        ob=appuser.objects.filter(uid=uid)
+        if ob:
+            obj=viewlist.objects.filter(uid=ob[0])
+            lis=[i['pid_id'] for i in obj.values()]
+            obj1=product.objects.filter(pk__in=lis)
+            obj_Serializer=productSerializer(obj1,many=True)
+            return JsonResponse(obj_Serializer.data,safe=False)
+        else:
+            return JsonResponse({"message":"error"})    
+
+@csrf_exempt
+def addcart(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        pid=data['pid']
+        uid=data['uid']
+        ob1=appuser.objects.filter(uid=uid)
+        ob2=product.objects.filter(pid=pid)
+        if ob1 and ob2:
+            obj=cart.objects.create(pid=ob2[0],uid=ob1[0],state=False,time=datetime.now())
+            obj.save()
+            return JsonResponse({"message":"ADDED"})
+        else:
+            return JsonResponse({"message":"error"})
+             
+@csrf_exempt
+def addwish(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        pid=data['pid']
+        uid=data['uid']
+        ob1=appuser.objects.filter(uid=uid)
+        ob2=product.objects.filter(pid=pid)
+        if ob1 and ob2:
+            obj=wishlist.objects.create(pid=ob2[0],uid=ob1[0],time=datetime.now())
+            obj.save()
+            return JsonResponse({"message":"ADDED"})
+        else:
+            return JsonResponse({"message":"error"})
+
+def removecart(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        pid=data['pid']
+        uid=data['uid']
+        ob=cart.objects.filter(uid=appuser.objects.filter(uid=uid)[0],pid=product.objects.filter(pid=pid)[0])
+        if ob:
+            ob[0].delete()
+            return JsonResponse({"Done":True})
+        else:
+            return JsonResponse({"Done":False})
+    
+@csrf_exempt         
+def removewish(request,pid=-1,uid=-1):
+    if request.method=="POST":
+        ob=wishlist.objects.filter(uid=appuser.objects.filter(uid=uid)[0],pid=product.objects.filter(pid=pid)[0])
+        if ob:
+            ob[0].delete()
+            return JsonResponse({"Done":True})
+        else:
+            return JsonResponse({"Done":False})
+    
+@csrf_exempt
+def placeorder(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        lis=data['list']
+        uid=data['uid']
+        for i in lis:
+            order.objects.create(uid=appuser.objects.get(pk=uid),pid=product.objects.get(pk=i),state=False,time=datetime.now()).save()
+        return JsonResponse({"message":"ADDED"})
     
