@@ -11,6 +11,7 @@ const AppProvider=({children})=>{
     const [allProduct,setAllProduct]=useState([]);
     const [isLogedIn,setIsLogedIn]=useState(false);
     const [cat,setCat]=useState([]);
+    const [myorder,setMyorder]=useState({"data": [{"pid": -1, "vid": -1, "caid": -1, "name": "loading...", "price": -1, "qty": -1}], "satus": [false], "id": [-1]});
 
     const registeUser=async(name,phno,mailid,street,city,state,password)=>{
         const res=await axios.post(baseURL+'venauth',{
@@ -122,8 +123,28 @@ const AppProvider=({children})=>{
             alert("Failed...")
         }
     }
+
+    const getvenorder=async()=>{
+        const res=await axios.get(baseURL+`getvenorder/${user.vid}`)
+        console.log(res)
+        if(res.data.message=="fail"){
+            alert("Failed...")
+        }else{
+            setMyorder(res.data)
+        }
+    }
+
+    const updateorder=async(oid)=>{
+        const res=await axios.post(baseURL+`updateorder/${oid}`)
+        if(res.data.message=="fail"){
+            alert("Failed...")
+        }else{
+            alert("DONE")
+        }
+    }
     
-    return <AppContext.Provider value={{user,isLogedIn,cat,allProduct,setAllProduct,registeUser,authUser,getcat,addpro,getproid,updateproqty,changepass
+    return <AppContext.Provider value={{user,isLogedIn,cat,allProduct,myorder,
+        setAllProduct,registeUser,authUser,getcat,addpro,getproid,updateproqty,changepass,getvenorder,updateorder
     }}>
         {children}
     </AppContext.Provider>

@@ -14,7 +14,7 @@ function MenuBar() {
           <Link to=""></Link>
           <Link to=""></Link>
           <Link to=""></Link>
-          <Link to="">order</Link>
+          <Link to="/order">order</Link>
           <Link to="/profile">profile</Link>
       </nav>
     </>

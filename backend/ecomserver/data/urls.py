@@ -22,4 +22,8 @@ urlpatterns=[
     path("removecart",views.removecart,name="removecart"),
     path("removewish/<int:pid>/<int:uid>",views.removewish,name="removewish"),
     path("placeorder",views.placeorder,name="placeorder"),
+    path("changeuserpas",views.changeuserpas,name="changeuserpas"),
+    path("getorder/<int:uid>",views.getorder,name="getorder"),
+    path("getvenorder/<int:vid>",views.getvenorder,name="getvenorder"),
+    path("updateorder/<int:oid>",views.updateorder,name="updateorder")
 ]

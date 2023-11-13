@@ -1,16 +1,24 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import MenuBar from './MenuBar';
 import {useGlobalContext} from "../context";
 import { useNavigate } from 'react-router-dom';
 
-function Listpro() {
-  const {user,caidpro}=useGlobalContext();
+function Order() {
+  const {user,myorder,getorder}=useGlobalContext();
   const navigate = useNavigate();
+  const [temp,setTemp]=useState(0);
+  const [lis,setLis]=useState([])
+
+  if (temp==0){
+    getorder();
+    console.log(myorder)
+    setTemp(1)
+  }
   return (
     <>
     <MenuBar/>
     <div className="section-center">
-    {caidpro.map((ca,index)=>{
+    {myorder.data.map((ca,index)=>{
       return (
           <>
           <div className="card" key={index} style={{width:'18rem'}}>
@@ -18,11 +26,7 @@ function Listpro() {
             <h4>{ca.name}</h4>
             </div>
             <div className="card-body">
-              <h5 className="card-text">price: {ca.price}</h5>
-              <h5 className="card-text">quantity: {ca.qty}</h5>
-              <a class="btn btn-primary" onClick={()=>{
-                navigate(`/viewpro/${ca.pid}`)
-              }}>View</a>
+              <h5 className="card-text">Status: {myorder.satus[index] ? "Delivered" : "Not Delivered"}</h5>
             </div>
           </div>  
           </>
@@ -33,4 +37,4 @@ function Listpro() {
   )
 }
 
-export default Listpro
+export default Order

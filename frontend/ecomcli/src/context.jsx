@@ -15,6 +15,7 @@ const AppProvider=({children})=>{
     const [viewlist,setViewList]=useState([])
     const [wishlist,setWishList]=useState([])
     const [cart,setCart]=useState([])
+    const [myorder,setMyorder]=useState({"data": [{"pid": -1, "vid": -1, "caid": -1, "name": "loading...", "price": -1, "qty": -1}], "satus": [false]})
 
     const registeUser=async(name,phno,mail,password,doorno,street,city,state)=>{
         const res=await axios.post(baseURL+'adduser',{
@@ -203,8 +204,39 @@ const AppProvider=({children})=>{
         });
     }
 
-    return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,viewlist,wishlist,cart,
-        setCatid,registeUser,authUser,getcat,getprocaid,getview,addwish,addcart,getwishlist,removewish,getcart,removecart,placeorder,
+    const changepass=async(newpass)=>{
+        const res=await axios.post(baseURL+'changeuserpas',{
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:{
+                "uid":user[0].uid,
+                "password":newpass
+            }
+        });
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            alert("Changed")
+        }
+    }
+    
+    const getorder=async()=>{
+        const res=await axios.get(baseURL+`getorder/${user[0].uid}`);
+        if(res.data.message){
+            alert(res.data.message);
+            
+        }else{
+            setMyorder(res.data)
+            return res.data
+        }
+    }
+
+    return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,viewlist,wishlist,cart,myorder,
+        setCatid,registeUser,authUser,getcat,getprocaid,getview,addwish,addcart,getwishlist,
+        removewish,getcart,removecart,placeorder,changepass,getorder,
     }}>
         {children}
     </AppContext.Provider>

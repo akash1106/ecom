@@ -269,6 +269,61 @@ def placeorder(request):
         lis=data['list']
         uid=data['uid']
         for i in lis:
-            order.objects.create(uid=appuser.objects.get(pk=uid),pid=product.objects.get(pk=i),state=False,time=datetime.now()).save()
+            o=product.objects.filter(pk=i)
+            if o[0].qty>0:
+                order.objects.create(uid=appuser.objects.get(pk=uid),pid=product.objects.get(pk=i),state=False,time=datetime.now()).save()
+                o[0].qty-=1
+                o[0].save()
+            else:
+                return JsonResponse({"message":"FAILED"})
         return JsonResponse({"message":"ADDED"})
     
+@csrf_exempt
+def changeuserpas(request):
+    if request.method=="POST":
+        data=JSONParser().parse(request)['body']
+        uid=data['uid']
+        password=data['password']
+        appuser.objects.filter(pk=uid).update(pas=password)
+        return JsonResponse({"message":"done"})
+    
+@csrf_exempt
+def getorder(request,uid=-1):
+    if request.method=="GET":
+        ob=appuser.objects.filter(uid=uid)
+        if ob:
+            obj=order.objects.filter(uid=uid)
+            lis=[i['pid_id'] for i in obj.values()]
+            sat=[i['state'] for i in obj.values()]
+            obj1=product.objects.filter(pk__in=lis)
+            obj_Serializer=productSerializer(obj1,many=True)
+            return JsonResponse({"data":obj_Serializer.data,"satus":sat},safe=False)
+        else:
+            return JsonResponse({"message":"error"})
+        
+@csrf_exempt
+def getvenorder(request,vid=-1):
+    if request.method=="GET":
+        ob=vendor.objects.filter(vid=vid)
+        if ob:
+            o=product.objects.filter(vid=ob[0])
+            i=[i['pid'] for i in o.values()]
+            obj=order.objects.filter(pid__in=i)
+            print(obj.values())
+            lis=[i['pid_id'] for i in obj.values()]
+            sat=[i['state'] for i in obj.values()]
+            id=[i['oid'] for i in obj.values()]
+            obj1=product.objects.filter(pk__in=lis)
+            obj_Serializer=productSerializer(obj1,many=True) 
+            return JsonResponse({"data":obj_Serializer.data,"satus":sat,"id":id},safe=False)
+        else:
+            return JsonResponse({"message":"error"})
+            
+@csrf_exempt
+def updateorder(request,oid=-1):
+    if request.method=="POST":
+        order.objects.filter(pk=oid).update(state=True)
+        return JsonResponse({"message":"DONE"})
+        
+        
+        

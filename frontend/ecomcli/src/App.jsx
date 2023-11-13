@@ -8,6 +8,8 @@ import Listpro from './component/Listpro'
 import ViewPro from './component/ViewPro'
 import Wishlist from './component/Wishlist'
 import Cart from './component/Cart'
+import Profile from './component/Profile'
+import Order from './component/Order'
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
       <Route path="/listpro" element={<Listpro/>}></Route>
       <Route path="/wishlist" element={<Wishlist/>}></Route>
       <Route path="/cart" element={<Cart/>}></Route>
+      <Route path="/profile" element={<Profile/>}></Route>
+      <Route path="/order" element={<Order/>}></Route>
       <Route path="/viewpro/:pid" element={<ViewPro/>}></Route>
     </Routes>
     </>
