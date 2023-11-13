@@ -4,11 +4,11 @@ import {useGlobalContext} from "../context";
 import { useNavigate } from 'react-router-dom';
 
 function LandPage() {
-  const {user,getproid,allProduct,updateproqty,setAllProduct}=useGlobalContext();
+  const {user,getproid,allProduct,updateproqty,getdata}=useGlobalContext();
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
-  if (user.vid==undefined){
-    window. location. replace("http://localhost:5173/login")
+  if(user.vid==undefined){
+    getdata()
   }
   if(temp==0){
     getproid();

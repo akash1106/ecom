@@ -4,9 +4,13 @@ import {useGlobalContext} from "../context";
 import MenuBar from './MenuBar';
 
 function Wishlist() {
-    const {user,getwishlist,wishlist,removewish}=useGlobalContext();
+    const {user,getwishlist,wishlist,removewish,getdata}=useGlobalContext();
     const [temp,setTemp]=useState(0);
     const navigate = useNavigate();
+
+    if(user.vid==undefined){
+      getdata()
+    }
 
     if(temp==0){
       getwishlist()

@@ -4,7 +4,7 @@ import {useGlobalContext} from "../context";
 import MenuBar from './MenuBar';
 
 function Cart() {
-    const {user,getcart,cart,setCart,removecart,placeorder}=useGlobalContext();
+    const {user,getcart,cart,removecart,placeorder,getdata}=useGlobalContext();
     const [temp,setTemp]=useState(0);
     const navigate = useNavigate();
 
@@ -18,6 +18,10 @@ function Cart() {
     for (var i of cart) {
         total+=i.price
         lis.push(i.pid)
+    }
+
+    if(user.vid==undefined){
+      getdata()
     }
 
   return (

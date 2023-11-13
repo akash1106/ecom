@@ -38,6 +38,15 @@ const AppProvider=({children})=>{
         }
     }
 
+    const getdata=async()=>{
+        const data=JSON.parse(localStorage.getItem('user'));
+        if(data.vid){
+            setUser(data);
+        }else{
+            navigate('/login')
+        }
+    }
+
     const authUser=async(username,password)=>{
         const res=await axios.post(baseURL+'venauthget',{
             headers:{
@@ -56,6 +65,7 @@ const AppProvider=({children})=>{
             setUser(res.data);
             alert(user.vid)
             setIsLogedIn(true);
+            localStorage.setItem('user', JSON.stringify(res.data));
             alert("done");
         }
     }
@@ -118,15 +128,16 @@ const AppProvider=({children})=>{
                 "password":pas
             }
         })
-        console.log(res)
         if(res.data.message=="fail"){
             alert("Failed...")
         }
     }
 
     const getvenorder=async()=>{
+        if(user.vid==undefined){
+            await getdata()
+          }
         const res=await axios.get(baseURL+`getvenorder/${user.vid}`)
-        console.log(res)
         if(res.data.message=="fail"){
             alert("Failed...")
         }else{
@@ -144,7 +155,7 @@ const AppProvider=({children})=>{
     }
     
     return <AppContext.Provider value={{user,isLogedIn,cat,allProduct,myorder,
-        setAllProduct,registeUser,authUser,getcat,addpro,getproid,updateproqty,changepass,getvenorder,updateorder
+        setAllProduct,registeUser,authUser,getcat,addpro,getproid,updateproqty,changepass,getvenorder,updateorder,getdata
     }}>
         {children}
     </AppContext.Provider>

@@ -5,7 +5,7 @@ import {useGlobalContext} from "../context";
 
 function AddProduct() {
     const navigate = useNavigate();
-    const {user,cat,getcat,addpro}=useGlobalContext();
+    const {user,cat,getcat,addpro,getdata}=useGlobalContext();
     const [caid,setCaid]=useState(-1);
     const [name,setName]=useState("");
     const [price,setPrice]=useState(-1);
@@ -16,8 +16,8 @@ function AddProduct() {
         getcat();
         setNo(1);
     } 
-    if (user.vid==undefined){
-        window. location. replace("http://localhost:5173/login")
+    if(user.vid==undefined){
+        getdata()
       }
     return (
         <>

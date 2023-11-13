@@ -9,7 +9,8 @@ import NavBar from './NavBar'
 function HomePage() {
 
   const navigate = useNavigate();
-  const {user}=useGlobalContext();
+  const {user,getdata}=useGlobalContext();
+
 
   return (
     <>

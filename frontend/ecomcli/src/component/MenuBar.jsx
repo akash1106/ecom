@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom'
 import "./MenuBar.css"
 
 function MenuBar() {
-  const {user}=useGlobalContext();
+  const {user,getdata}=useGlobalContext();
+
+  if(user.vid==undefined){
+    getdata()
+  }
   return (
     <>
     <nav className='navbar ' style={{

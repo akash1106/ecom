@@ -4,8 +4,11 @@ import {useGlobalContext} from "../context";
 import { useState } from 'react';
 
 function Order() {
-    const {user,getvenorder,myorder,updateorder}=useGlobalContext();
+    const {user,getvenorder,myorder,updateorder,getdata}=useGlobalContext();
     const [temp,setTemp]=useState(0)
+    if(user.vid==undefined){
+      getdata()
+    }
 
     if(temp==0){
         getvenorder()

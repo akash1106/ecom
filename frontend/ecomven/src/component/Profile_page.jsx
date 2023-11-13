@@ -3,10 +3,10 @@ import MenuBar from './MenuBar';
 import {useGlobalContext} from "../context";
 
 function Profile_page() {
-    const {user,changepass}=useGlobalContext();
+    const {user,changepass,getdata}=useGlobalContext();
 
-    if (user.vid==undefined){
-        window. location. replace("http://localhost:5173/login")
+    if(user.vid==undefined){
+        getdata()
       }
 
     return (
@@ -37,6 +37,10 @@ function Profile_page() {
                         alert("Password not matched");
                     }
                   }}>Change password</a>
+                  <a class="btn btn-primary" onClick={()=>{
+                    localStorage.removeItem('user');
+                    navigator('/login')
+                  }}>LOGOUT</a>
             </div>
         </div>
         </div>

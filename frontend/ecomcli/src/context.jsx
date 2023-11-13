@@ -43,6 +43,15 @@ const AppProvider=({children})=>{
         }
     }
 
+    const getdata=async()=>{
+        const data=localStorage.getItem('user');
+        if(data){
+            setUser(data);
+        }else{
+            navigate('/login')
+        }
+    }
+
     const authUser=async(mail,password)=>{
         const res=await axios.post(baseURL+'authuser',{
             headers:{
@@ -54,13 +63,13 @@ const AppProvider=({children})=>{
                 "password":password,
             }
         });
-        console.log("Auth User",res.data);
         if(res.data.message){
             alert(res.data.message);
             setUser({});
         }else{
             setUser(res.data);
             setIsLogedIn(true);
+            localStorage.setItem('user', res.data);
         }
         return user
     }
@@ -99,7 +108,6 @@ const AppProvider=({children})=>{
             alert(res.data.message);
             
         }else{
-            console.log(res.data)
             setViewList(res.data)
         }
     }
@@ -236,7 +244,7 @@ const AppProvider=({children})=>{
 
     return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,viewlist,wishlist,cart,myorder,
         setCatid,registeUser,authUser,getcat,getprocaid,getview,addwish,addcart,getwishlist,
-        removewish,getcart,removecart,placeorder,changepass,getorder,
+        removewish,getcart,removecart,placeorder,changepass,getorder,getdata,
     }}>
         {children}
     </AppContext.Provider>

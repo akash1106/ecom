@@ -4,14 +4,17 @@ import {useGlobalContext} from "../context";
 import { useNavigate } from 'react-router-dom';
 
 function Order() {
-  const {user,myorder,getorder}=useGlobalContext();
+  const {user,myorder,getorder,getdata}=useGlobalContext();
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
   const [lis,setLis]=useState([])
 
+  if(user.vid==undefined){
+    getdata()
+  }
+
   if (temp==0){
     getorder();
-    console.log(myorder)
     setTemp(1)
   }
   return (

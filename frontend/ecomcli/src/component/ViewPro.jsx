@@ -6,12 +6,17 @@ import MenuBar from './MenuBar';
 
 function ViewPro() {
     const {pid} = useParams();
-    const {user,addwish,addcart}=useGlobalContext();
+    const {user,addwish,addcart,getdata}=useGlobalContext();
     const [pro,setPro]=useState({"caid":-1,"name":"Loading","pid":-1,"price":-1,"qty":-1,"vid":-1});
     const [spec,setSpec]=useState([]);
     const [temp,setTemp]=useState(0);
     const navigate = useNavigate();
     const baseURL="http://127.0.0.1:8000/";
+
+    if(user.vid==undefined){
+      getdata()
+    }
+
     const getproid=async(pid,uid)=>{
       const res=await axios.post(baseURL+`getproid/${uid}`,{
           headers:{
@@ -27,7 +32,6 @@ function ViewPro() {
           
       }else{
           setPro(res.data[0])
-          console.log(res.data[0])
       }
   }
 
@@ -54,7 +58,6 @@ if(temp==0){
     getproid(pid,user[0].uid);
     getspecid(pid); 
 }
-console.log(pro)
   return (
     <>
     <MenuBar/>

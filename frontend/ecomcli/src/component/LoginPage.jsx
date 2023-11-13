@@ -7,10 +7,11 @@ function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {user,authUser,isLogedIn}=useGlobalContext();
-  // if(isLogedIn){
-  //   window. location. replace("http://localhost:5173/land")
-  // }
+  const {user,authUser,getdata}=useGlobalContext();
+
+  if(user.vid==undefined){
+    getdata()
+  }
   const valid=()=>{
     let val=true;
     let text="";

@@ -4,8 +4,13 @@ import {useGlobalContext} from "../context";
 import { useNavigate } from 'react-router-dom';
 
 function Listpro() {
-  const {user,caidpro}=useGlobalContext();
+  const {user,caidpro,getdata}=useGlobalContext();
   const navigate = useNavigate();
+
+
+  if(user.vid==undefined){
+    getdata()
+  }
   return (
     <>
     <MenuBar/>

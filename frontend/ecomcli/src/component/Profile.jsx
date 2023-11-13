@@ -4,8 +4,12 @@ import {useGlobalContext} from "../context";
 import MenuBar from './MenuBar';
 
 function Profile() {
-    const {user,changepass}=useGlobalContext();
+    const {user,changepass,getdata}=useGlobalContext();
     const navigate = useNavigate();
+
+    if(user.vid==undefined){
+      getdata()
+    }
   return (
     <>
     <MenuBar/>
@@ -36,6 +40,10 @@ function Profile() {
                     alert("Password not matched");
                 }
               }}>Change password</a>
+              <a class="btn btn-primary" onClick={()=>{
+                localStorage.removeItem('user');
+                navigator('/login')
+              }}>LOGOUT</a>
         </div>
     </div> 
     </>

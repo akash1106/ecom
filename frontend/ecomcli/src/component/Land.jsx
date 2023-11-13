@@ -7,12 +7,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Land() {
-  const {user,cat,getcat,setCatid,getprocaid,getview,viewlist}=useGlobalContext();
+  const {user,cat,getcat,setCatid,getprocaid,getview,viewlist,getdata}=useGlobalContext();
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
-//   if (user.vid==undefined){
-//     window. location. replace("http://localhost:5173/login")
-//   }
+
+  if(user.vid==undefined){
+    getdata()
+  }
+
   if(temp==0){
     getcat();
     getview(user[0].uid);
