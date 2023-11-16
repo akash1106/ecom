@@ -347,7 +347,7 @@ def get(user,pro):
                 total+=1
                 if i['pid'] in j and i['pid']!=pro.pid:
                     count+=1
-        if count>=2 and count>max:
+        if count>=1 and count>max:
             max=count
             max_pro=i
     if max_pro!=0:
