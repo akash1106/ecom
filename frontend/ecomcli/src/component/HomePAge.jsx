@@ -20,7 +20,7 @@ function HomePAge() {
           <img src={image} className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy"></img>
         </div>
         <div className="col-lg-6">
-          <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">Ecommerce</h1>
+          <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">ReadyCart</h1>
           <p className="lead">Online marketplace connecting buyers and sellers, offering a wide range of products for convenient shopping from anywhere.</p>
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="button" className="btn btn-primary btn-lg px-4 me-md-2" onClick={() => { navigate("/register") }}>Sign up</button>
