@@ -7,7 +7,20 @@ const AppContext=React.createContext();
 const AppProvider=({children})=>{
     const navigate = useNavigate();
     const baseURL="http://127.0.0.1:8000/";
-    const [user,setUser]=useState({});
+    const [user,setUser]=useState([
+        {
+            "uid": -1,
+            "uname": "loading",
+            "phno": -1,
+            "mailid": "loading",
+            "doorno": "loading",
+            "street": "loading",
+            "city": "loading",
+            "state": "loading",
+            "pas": "loading",
+            "coin": 0
+        }
+    ]);
     const [isLogedIn,setIsLogedIn]=useState(false)
     const [cat,setCat]=useState([])
     const [catid,setCatid]=useState(-1)
@@ -44,12 +57,20 @@ const AppProvider=({children})=>{
     }
 
     const getdata=async()=>{
-        const data=localStorage.getItem('user');
-        if(data){
-            setUser(data);
+        const username=localStorage.getItem('user');
+        const password=localStorage.getItem('pass');
+        if (username && password){
+            console.log("doing")
+            authUser(username,password)
         }else{
-            navigate('/login')
+            useEffect(() => {
+                navigate('/login')
+              }, []);
         }
+        // useEffect(() => {
+        //             navigate('/login')
+        //           }, []);
+        //           console.log("check")
     }
 
     const authUser=async(mail,password)=>{
@@ -69,7 +90,8 @@ const AppProvider=({children})=>{
         }else{
             setUser(res.data);
             setIsLogedIn(true);
-            localStorage.setItem('user', res.data);
+            localStorage.setItem('user',mail);
+            localStorage.setItem('pass',password);
         }
         return user
     }
@@ -102,8 +124,8 @@ const AppProvider=({children})=>{
         }
     }
 
-    const getview=async(uid)=>{
-        const res=await axios.get(baseURL+`getviewlist/${uid}`);
+    const getview=async()=>{
+        const res=await axios.get(baseURL+`getviewlist/${user[0].uid}`);
         if(res.data.message){
             alert(res.data.message);
             
@@ -244,7 +266,7 @@ const AppProvider=({children})=>{
 
     return <AppContext.Provider value={{user,isLogedIn,cat,catid,caidpro,viewlist,wishlist,cart,myorder,
         setCatid,registeUser,authUser,getcat,getprocaid,getview,addwish,addcart,getwishlist,
-        removewish,getcart,removecart,placeorder,changepass,getorder,getdata,
+        removewish,getcart,removecart,placeorder,changepass,getorder,getdata
     }}>
         {children}
     </AppContext.Provider>

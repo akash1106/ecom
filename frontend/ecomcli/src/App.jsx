@@ -10,9 +10,10 @@ import Wishlist from './component/Wishlist'
 import Cart from './component/Cart'
 import Profile from './component/Profile'
 import Order from './component/Order'
+import { useGlobalContext } from './context'
 
 function App() {
-
+  const {user,getdata}=useGlobalContext();
   return (
     <>
     <Routes>

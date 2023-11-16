@@ -11,13 +11,13 @@ function Land() {
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
 
-  if(user.vid==undefined){
-    getdata()
+  if(user[0].uid==-1){
+    getdata();
   }
 
   if(temp==0){
     getcat();
-    getview(user[0].uid);
+    getview();
     setTemp(1);
   }
   return (

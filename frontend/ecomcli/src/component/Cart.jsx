@@ -12,6 +12,9 @@ function Cart() {
         getcart()
         setTemp(1)
     }
+    if(user[0].uid==-1){
+      getdata()
+    }
 
     var total=0;
     var lis=[];
@@ -20,9 +23,9 @@ function Cart() {
         lis.push(i.pid)
     }
 
-    if(user.vid==undefined){
-      getdata()
-    }
+    // if(user.vid==undefined){
+    //   getdata()
+    // }
 
   return (
     <>

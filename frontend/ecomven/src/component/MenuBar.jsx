@@ -5,7 +5,7 @@ import "./MenuBar.css"
 
 function MenuBar() {
   const {user,getdata}=useGlobalContext();
-  if(user.vid==undefined){
+  if(user.vid==-1){
     getdata()
   }
   return (

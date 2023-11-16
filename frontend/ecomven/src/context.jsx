@@ -5,9 +5,18 @@ import { useNavigate } from 'react-router-dom'
 const AppContext=React.createContext();
 
 const AppProvider=({children})=>{
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const baseURL="http://127.0.0.1:8000/";
-    const [user,setUser]=useState({});
+    const [user,setUser]=useState({
+        "vid": -1,
+        "vname": "loading",
+        "phno": -1,
+        "mailid": "loading",
+        "street": "loading",
+        "city": "loading",
+        "state": "loading",
+        "pas": "loading"
+    });
     const [allProduct,setAllProduct]=useState([]);
     const [isLogedIn,setIsLogedIn]=useState(false);
     const [cat,setCat]=useState([]);
@@ -39,11 +48,14 @@ const AppProvider=({children})=>{
     }
 
     const getdata=async()=>{
-        const data=JSON.parse(localStorage.getItem('user'));
-        if(data.vid){
-            setUser(data);
+        const username=localStorage.getItem('user');
+        const password=localStorage.getItem('pass');
+        if (username && password){
+            authUser(username,password)
         }else{
-            navigate('/login')
+            useEffect(() => {
+                navigate('/login')
+              }, []);
         }
     }
 
@@ -63,10 +75,9 @@ const AppProvider=({children})=>{
             setUser({});
         }else{
             setUser(res.data);
-            alert(user.vid)
             setIsLogedIn(true);
-            localStorage.setItem('user', JSON.stringify(res.data));
-            alert("done");
+            localStorage.setItem('user',username);
+            localStorage.setItem('pass',password);
         }
     }
     
@@ -136,7 +147,7 @@ const AppProvider=({children})=>{
     const getvenorder=async()=>{
         if(user.vid==undefined){
             await getdata()
-          }
+        }
         const res=await axios.get(baseURL+`getvenorder/${user.vid}`)
         if(res.data.message=="fail"){
             alert("Failed...")

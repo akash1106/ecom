@@ -7,11 +7,8 @@ function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {user,authUser,getdata}=useGlobalContext();
+  const {user,authUser}=useGlobalContext();
 
-  if(user.vid==undefined){
-    getdata()
-  }
   const valid=()=>{
     let val=true;
     let text="";

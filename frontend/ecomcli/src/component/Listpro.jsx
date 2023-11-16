@@ -8,7 +8,7 @@ function Listpro() {
   const navigate = useNavigate();
 
 
-  if(user.vid==undefined){
+  if(user[0].uid==-1){
     getdata()
   }
   return (

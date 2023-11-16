@@ -7,9 +7,8 @@ function Order() {
   const {user,myorder,getorder,getdata}=useGlobalContext();
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
-  const [lis,setLis]=useState([])
 
-  if(user.vid==undefined){
+  if(user[0].uid==-1){
     getdata()
   }
 

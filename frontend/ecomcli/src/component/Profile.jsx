@@ -7,7 +7,7 @@ function Profile() {
     const {user,changepass,getdata}=useGlobalContext();
     const navigate = useNavigate();
 
-    if(user.vid==undefined){
+    if(user[0].uid==-1){
       getdata()
     }
   return (
@@ -42,6 +42,7 @@ function Profile() {
               }}>Change password</a>
               <a class="btn btn-primary" onClick={()=>{
                 localStorage.removeItem('user');
+                localStorage.removeItem('pass');
                 navigator('/login')
               }}>LOGOUT</a>
         </div>

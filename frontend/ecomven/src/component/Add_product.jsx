@@ -16,7 +16,7 @@ function AddProduct() {
         getcat();
         setNo(1);
     } 
-    if(user.vid==undefined){
+    if(user.vid==-1){
         getdata()
       }
     return (

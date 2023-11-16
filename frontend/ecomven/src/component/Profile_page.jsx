@@ -5,7 +5,7 @@ import {useGlobalContext} from "../context";
 function Profile_page() {
     const {user,changepass,getdata}=useGlobalContext();
 
-    if(user.vid==undefined){
+    if(user.vid==-1){
         getdata()
       }
 

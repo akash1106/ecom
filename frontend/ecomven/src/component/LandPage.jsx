@@ -7,7 +7,7 @@ function LandPage() {
   const {user,getproid,allProduct,updateproqty,getdata}=useGlobalContext();
   const navigate = useNavigate();
   const [temp,setTemp]=useState(0);
-  if(user.vid==undefined){
+  if(user.vid==-1){
     getdata()
   }
   if(temp==0){

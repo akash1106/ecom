@@ -6,7 +6,7 @@ import { useState } from 'react';
 function Order() {
     const {user,getvenorder,myorder,updateorder,getdata}=useGlobalContext();
     const [temp,setTemp]=useState(0)
-    if(user.vid==undefined){
+    if(user.vid==-1){
       getdata()
     }
 

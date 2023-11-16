@@ -4,6 +4,8 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from .serializers import *
 from datetime import datetime
+from email.message import EmailMessage
+import smtplib
 
 
 @csrf_exempt
@@ -64,6 +66,9 @@ def getcat(request):
     if request.method == "GET":
         cat=categories.objects.all()
         serializer=categoriesSerializer(cat,many=True)
+        o=appuser.objects.get(pk=1)
+        o1=product.objects.get(pk=7)
+        get(o,o1)
         return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
@@ -274,6 +279,7 @@ def placeorder(request):
                 order.objects.create(uid=appuser.objects.get(pk=uid),pid=product.objects.get(pk=i),state=False,time=datetime.now()).save()
                 o[0].qty-=1
                 o[0].save()
+                get(appuser.objects.get(pk=uid),product.objects.get(pk=i))
             else:
                 return JsonResponse({"message":"FAILED"})
         return JsonResponse({"message":"ADDED"})
@@ -325,5 +331,46 @@ def updateorder(request,oid=-1):
         order.objects.filter(pk=oid).update(state=True)
         return JsonResponse({"message":"DONE"})
         
+def get(user,pro):
+    obj=order.objects.all().values()
+    dic=dict()
+    for i in obj:
+        if i['uid_id'] in dic.keys():
+            dic[i['uid_id']].append(i['pid_id'])
+        else:
+            dic[i['uid_id']]=list((i['pid_id'],))
+    obj1=product.objects.all().values()
+    max_pro=0
+    for i in obj1:
+        count=0
+        total=0
+        max=-1
+        for j in dic.values():
+            if pro.pid in j:
+                total+=1
+                if i['pid'] in j:
+                    count+=1
+        if count>=2 and count>max:
+            max=count
+            max_pro=i
+    if max_pro!=0:
+        print(max_pro)
+        sendmail(user,max_pro,pro)        
+
+
+def sendmail(targetUser,pro,orderpro):
+        html_message = "<h1>ORDER PLACED!!!</h1><p><h3>Hi {},</h3></p><p>Greetings from ReadyCart Team,</p><p>Thank You for ordering {}.</p><br><p><h1>You may buy:</h1></p><p>Name: {}</p><br><p>Regards,</p><p>ORDER Team,</p><p>ReadyCart 2023.</p><p>Copyright © ReadyCart 2023, All rights reserved.</p>"
+        user = 'akashavt003@gmail.com'
         
-        
+        password = 'gehzvhzgknxhlxyo'
+
+        msg = EmailMessage()
+        msg['Subject'] = 'A great deal'
+        msg['From'] = user
+        msg['To'] = targetUser.mailid
+        msg.set_content("hi")
+        msg.add_alternative(html_message.format(targetUser.uname,orderpro.name,pro['name']), subtype='html')
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(user, password)
+            smtp.send_message(msg)
