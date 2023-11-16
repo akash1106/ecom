@@ -29,7 +29,6 @@ function Profile_page() {
                     let old = prompt('Enter Old Password:');
                     let newpass = prompt('Enter New Password:');
                     let confirmpass=prompt('Confirm Password:');
-                    alert(old==user.pas && newpass==confirmpass)
                     if(old==user.pas && newpass==confirmpass){
                         
                         changepass(newpass)

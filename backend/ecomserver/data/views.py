@@ -66,9 +66,6 @@ def getcat(request):
     if request.method == "GET":
         cat=categories.objects.all()
         serializer=categoriesSerializer(cat,many=True)
-        o=appuser.objects.get(pk=1)
-        o1=product.objects.get(pk=7)
-        get(o,o1)
         return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
@@ -348,7 +345,7 @@ def get(user,pro):
         for j in dic.values():
             if pro.pid in j:
                 total+=1
-                if i['pid'] in j:
+                if i['pid'] in j and i['pid']!=pro.pid:
                     count+=1
         if count>=2 and count>max:
             max=count

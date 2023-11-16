@@ -128,7 +128,6 @@ const AppProvider=({children})=>{
     }
 
     const changepass=async(pas)=>{
-        alert("in")
         const res=await axios.post(baseURL+'changepass',{
             headers:{
                 'Accept':'application/json',

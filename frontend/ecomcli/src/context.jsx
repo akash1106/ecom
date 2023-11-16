@@ -60,7 +60,6 @@ const AppProvider=({children})=>{
         const username=localStorage.getItem('user');
         const password=localStorage.getItem('pass');
         if (username && password){
-            console.log("doing")
             authUser(username,password)
         }else{
             useEffect(() => {

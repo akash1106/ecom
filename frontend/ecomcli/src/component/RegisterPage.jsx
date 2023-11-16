@@ -18,7 +18,6 @@ function RegisterPage() {
         let regex = /^[a-zA-Z/s]+$/;
         let val=true;
         let text="";
-        alert(!(phno.toString().length==10))
         if (!(regex.test(uname))){
           text="Enter valid Username!!!";
           val=false
@@ -46,7 +45,6 @@ function RegisterPage() {
       const handleSubmit=async()=>{
         if (valid()){
           await registeUser(uname,phno,mailId,password,doorNo,street,city,state);
-          alert(user.vid)
           if (user.vid){
             navigate('/Land');
           }else{
