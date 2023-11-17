@@ -359,7 +359,7 @@ def sendmail(targetUser,pro,orderpro):
         html_message = "<h1>ORDER PLACED!!!</h1><p><h3>Hi {},</h3></p><p>Greetings from ReadyCart Team,</p><p>Thank You for ordering {}.</p><br><p><h1>You may buy:</h1></p><p>Name: {}</p><br><p>Regards,</p><p>ORDER Team,</p><p>ReadyCart 2023.</p><p>Copyright © ReadyCart 2023, All rights reserved.</p>"
         user = 'akashavt003@gmail.com'
         
-        password = 'gehzvhzgknxhlxyo'
+        password = ''
 
         msg = EmailMessage()
         msg['Subject'] = 'A great deal'
